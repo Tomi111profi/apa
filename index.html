@@ -2,90 +2,156 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Névnapod van, Apa! 🎉</title>
+    <title>Boldog névnapot!</title>
     <style>
         body {
+            margin: 0;
             font-family: system-ui, sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
+            background: #f2f6fb;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            color: #24324a;
         }
-        .card {
-            background: rgba(0,0,0,0.25);
+
+        .container {
+            background: #ffffff;
             padding: 2.5rem;
-            border-radius: 16px;
-            max-width: 520px;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
+
         h1 {
             margin-top: 0;
-            font-size: 2.2rem;
+            font-size: 1.6rem;
+            line-height: 1.4;
+            font-weight: 600;
         }
-        .badge {
-            margin: 1.5rem 0;
-            font-size: 1.1rem;
-            opacity: 0.9;
+
+        /* Szerencsekerék */
+        .wheel-wrapper {
+            margin: 2rem 0 1rem;
+            position: relative;
         }
-        footer {
+
+        .wheel {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 10px solid #e3eaf5;
+            margin: 0 auto;
+            transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            background: conic-gradient(
+                #c7d9ff 0deg 45deg,
+                #e1ebff 45deg 90deg,
+                #c7d9ff 90deg 135deg,
+                #e1ebff 135deg 180deg,
+                #c7d9ff 180deg 225deg,
+                #e1ebff 225deg 270deg,
+                #c7d9ff 270deg 315deg,
+                #e1ebff 315deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pointer {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 18px solid #24324a;
+            margin: 0 auto 0.5rem;
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 0.7rem 1.6rem;
+            font-size: 1rem;
+            border-radius: 999px;
+            border: none;
+            background: #4f6ef7;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3f5be0;
+        }
+
+        .fortune {
+            margin-top: 1.2rem;
+            min-height: 2.5rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* Rajz */
+        .drawing {
             margin-top: 2rem;
-            font-size: 0.85rem;
-            opacity: 0.7;
         }
-        .small {
-            font-size: 0.9rem;
-            opacity: 0.8;
+
+        svg {
+            max-width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🎉 Boldog névnapot, Apa! 🎉</h1>
+    <div class="container">
+        <h1>
+            Boldog névnapot!<br>
+            Te vagy a legjobb APA
+        </h1>
 
-        <p class="badge">
-            Státusz: <strong id="dics">–</strong>
-        </p>
+        <div class="wheel-wrapper">
+            <div class="pointer"></div>
+            <div class="wheel" id="wheel"></div>
+        </div>
 
-        <p id="uzenet"></p>
+        <button onclick="spin()">Pörgetés</button>
 
-        <p class="small" id="meta"></p>
+        <div class="fortune" id="fortune"></div>
 
-        <footer>
-            Készítette: a gyermeked ❤️<br>
-            Verzió: 1.0.0 (soha nem lesz deprecated)
-        </footer>
+        <div class="drawing">
+            <!-- „kézzel rajzolt” hatású SVG -->
+            <svg viewBox="0 0 200 120">
+                <path d="M20 100 Q100 20 180 100" fill="none" stroke="#24324a" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="70" cy="55" r="8" fill="#24324a"/>
+                <circle cx="130" cy="55" r="8" fill="#24324a"/>
+                <path d="M80 75 Q100 85 120 75" fill="none" stroke="#24324a" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
     </div>
 
     <script>
-        const dicséretek = [
-            "a világ legjobb apukája",
-            "a család informatikai supportja",
-            "a legendás barkácsmester",
-            "aki mindig tudja, hol van a távirányító",
-            "a nyugalom szigete (többnyire)"
+        const wheel = document.getElementById("wheel");
+        const fortuneEl = document.getElementById("fortune");
+
+        const fortunes = [
+            "Nagyon szeretlek.",
+            "Te vagy a lejobb Apuka",
+            "Te értessz a legjobban a wp-hez.",
+            "Nem lehet már sört kapni...",
+            "Köszönöm hogy segítettél megtanulni programozni.",
         ];
 
-        const uzenetek = [
-            "Ma minden hiba az alkalmazásban FEATURE.",
-            "A kávé erősebb, a kód szebb, a nap jobb.",
-            "Ez az oldal 100%-ban apai szeretetből készült.",
-            "Tesztelve lett: működik apákon."
-        ];
+        let rotation = 0;
 
-        function randomElem(lista) {
-            return lista[Math.floor(Math.random() * lista.length)];
+        function spin() {
+            const randomSpin = Math.floor(Math.random() * 360) + 720;
+            rotation += randomSpin;
+            wheel.style.transform = `rotate(${rotation}deg)`;
+
+            const index = Math.floor(Math.random() * fortunes.length);
+            setTimeout(() => {
+                fortuneEl.textContent = fortunes[index];
+            }, 2800);
         }
-
-        document.getElementById("dics").textContent = randomElem(dicséretek);
-        document.getElementById("uzenet").textContent = randomElem(uzenetek);
-
-        const today = new Date().toLocaleDateString("hu-HU");
-        document.getElementById("meta").innerHTML =
-            `Generálva: ${today}<br>GitHub Pages kompatibilis ✔️`;
     </script>
 </body>
 </html>
