@@ -1,0 +1,89 @@
+<?php
+$apaNeve = "Apa"; // ha akarod, írd át a nevére
+$datum = date("Y. m. d");
+
+$dicséretek = [
+    "a világ legjobb apukája",
+    "a család informatikai supportja",
+    "a legendás barkácsmester",
+    "aki mindig tudja, hol van a távirányító",
+    "a nyugalom szigete (többnyire)"
+];
+
+$uzenetek = [
+    "Ma minden hiba az alkalmazásban FEATURE.",
+    "A kávé erősebb, a kód szebb, a nap jobb.",
+    "Ez az oldal 100%-ban apai szeretetből készült.",
+    "Tesztelve lett: működik apákon."
+];
+
+$dics = $dicséretek[array_rand($dicséretek)];
+$uzi = $uzenetek[array_rand($uzenetek)];
+?>
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Névnapod van, <?= $apaNeve ?>! 🎉</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: rgba(0,0,0,0.25);
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 520px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+        .badge {
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        footer {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        .small {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎉 Boldog névnapot, <?= $apaNeve ?>! 🎉</h1>
+
+        <p class="badge">
+            Státusz: <strong><?= $dics ?></strong>
+        </p>
+
+        <p><?= $uzi ?></p>
+
+        <p class="small">
+            Generálva: <?= $datum ?><br>
+            PHP verzió: <?= phpversion() ?>
+        </p>
+
+        <footer>
+            Készítette: a gyermeked ❤️<br>
+            Verzió: 1.0.0 (soha nem lesz deprecated)
+        </footer>
+    </div>
+</body>
+</html>
